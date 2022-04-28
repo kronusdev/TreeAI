@@ -2,3 +2,5 @@ torch
 torchvision
 torchaudio
 transformers
+discord-py-interactions
+python-dotenv
