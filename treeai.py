@@ -36,11 +36,11 @@ if __name__ == "__main__":
             ),
             interactions.Option(
                 name="max_length",
-                description="What is the maximum word length of your response? (10-150)",
+                description="What is the maximum word length of your response? (10-200)",
                 type=interactions.OptionType.INTEGER,
                 required=True,
                 min_value=10,
-                max_value=150
+                max_value=200
             )
         ]
     )
