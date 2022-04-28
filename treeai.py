@@ -26,7 +26,7 @@ if __name__ == "__main__":
     @bot.command(
         name="prompt",
         description="submit a prompt to get a response from TreeAI!",
-        scope=str(GUILD),
+        scope=int(GUILD),
         options=[
             interactions.Option(
                 name="message",
