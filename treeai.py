@@ -20,12 +20,13 @@ if __name__ == "__main__":
     TOKEN = os.getenv('DISCORD_TOKEN')
     GUILD = os.getenv('GUILD_ID')
     bot =  interactions.Client(token=TOKEN)
-    
+
+    print(f'.env initialized...\nTOKEN: {TOKEN}\nGUILD_ID: {GUILD}')
     
     @bot.command(
         name="prompt",
         description="submit a prompt to get a response from TreeAI!",
-        scope=GUILD,
+        scope=str(GUILD),
         options=[
             interactions.Option(
                 name="message",
@@ -46,6 +47,7 @@ if __name__ == "__main__":
     async def prompt(ctx: interactions.CommandContext, message: str, max_length: int):
         await ctx.send(getResponse(message, max_length))
 
+    print('starting bot...')
     bot.start()
 
 
