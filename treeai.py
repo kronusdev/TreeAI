@@ -9,7 +9,7 @@ def getGenerator():
 
 def getResponse(prompt, length):
     generator = getGenerator()
-    response = generator(prompt, max_length=length, do_sample=True, temperature=0.9)
+    response = generator(prompt, max_length=length, do_sample=True, temperature=0.8)
     return response[0]['generated_text']
 
 if __name__ == "__main__":
@@ -36,11 +36,11 @@ if __name__ == "__main__":
             ),
             interactions.Option(
                 name="max_length",
-                description="What is the maximum word length of your response? (10-200)",
+                description="What is the maximum word length of your response? (10-150)",
                 type=interactions.OptionType.INTEGER,
                 required=True,
                 min_value=10,
-                max_value=200
+                max_value=150
             )
         ]
     )
@@ -51,5 +51,3 @@ if __name__ == "__main__":
 
     print('starting bot...')
     bot.start()
-
-
