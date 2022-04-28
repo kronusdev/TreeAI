@@ -1,14 +1,15 @@
 import os
+from pydoc import describe
 from transformers import pipeline
 from dotenv import load_dotenv
-import discord
 import interactions
 
 def getGenerator():
     return pipeline('text-generation', model='EleutherAI/gpt-neo-125M')
 
-def getResponse(generator, prompt, length, temp):
-    response = generator(prompt, max_length=length, do_sample=True, temperature=temp)
+def getResponse(prompt, length):
+    generator = getGenerator()
+    response = generator(prompt, max_length=length, do_sample=True, temperature=0.9)
     return response[0]['generated_text']
 
 if __name__ == "__main__":
@@ -17,13 +18,32 @@ if __name__ == "__main__":
     load_dotenv()
     # get the Discord stuff sorted
     TOKEN = os.getenv('DISCORD_TOKEN')
-    client = discord.Client()
+    GUILD = os.getenv('GUILD_ID')
+    bot =  interactions.Client(token=TOKEN)
+    bot.start()
+    
+    @bot.command(
+        name="prompt",
+        description="submit a prompt to get a response from TreeAI!",
+        scope=GUILD,
+        options=[
+            interactions.Option(
+                name="message",
+                description="What you want to generate a response based upon.",
+                type=interactions.OptionType.STRING,
+                required=True
+            ),
+            interactions.Option(
+                name="max_length",
+                description="What is the maximum word length of your response? (10-200)",
+                type=interactions.OptionType.INTEGER,
+                required=True,
+                min_value=10,
+                max_value=200
+            )
+        ]
+    )
+    async def prompt(ctx: interactions.CommandContext, message: str, max_length: int):
+        await ctx.send(getResponse(message, max_length))
 
-    # get that generator
-    generator = getGenerator()
 
-    @client.event
-    async def on_ready():
-        print(f'{client.user} has connected to Discord!')
-
-    client.run(TOKEN)
