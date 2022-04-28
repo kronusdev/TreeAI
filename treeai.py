@@ -20,7 +20,7 @@ if __name__ == "__main__":
     TOKEN = os.getenv('DISCORD_TOKEN')
     GUILD = os.getenv('GUILD_ID')
     bot =  interactions.Client(token=TOKEN)
-    bot.start()
+    
     
     @bot.command(
         name="prompt",
@@ -45,5 +45,7 @@ if __name__ == "__main__":
     )
     async def prompt(ctx: interactions.CommandContext, message: str, max_length: int):
         await ctx.send(getResponse(message, max_length))
+
+    bot.start()
 
 
