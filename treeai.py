@@ -46,7 +46,7 @@ if __name__ == "__main__":
     )
     async def prompt(ctx: interactions.CommandContext, message: str, max_length: int):
         resp = getResponse(message, max_length)
-        await ctx.defer(resp, ephemeral=True)
+        await ctx.defer(ephemeral=True).send(resp)
 
     print('starting bot...')
     bot.start()
