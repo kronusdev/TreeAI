@@ -1,10 +1,7 @@
-from email import generator
 import os
-from pydoc import describe
 from transformers import pipeline
 from dotenv import load_dotenv
 import interactions
-import transformers
 
 def getGenerator():
     return pipeline('text-generation', model='EleutherAI/gpt-neo-125M')
