@@ -1,3 +1,4 @@
+from email import generator
 import os
 from pydoc import describe
 from transformers import pipeline
@@ -8,8 +9,8 @@ import transformers
 def getGenerator():
     return pipeline('text-generation', model='EleutherAI/gpt-neo-125M')
 
-def getResponse(generator, prompt, length):
-    response = generator(prompt, max_length=length, do_sample=True, temperature=0.8)
+def getResponse(prompt, length):
+    response = gen(prompt, max_length=length, do_sample=True, temperature=0.8)
     return response[0]['generated_text']
 
 if __name__ == "__main__":
@@ -23,7 +24,9 @@ if __name__ == "__main__":
 
     print(f'.env initialized...\nTOKEN: {TOKEN}\nGUILD_ID: {GUILD}')
     
-    generator = getGenerator()
+    global gen 
+    gen = getGenerator()
+
     print(f'generator initialized...')
 
     @bot.command(
@@ -47,9 +50,9 @@ if __name__ == "__main__":
             )
         ]
     )
-    async def prompt(ctx: interactions.CommandContext, generator: transformers.pipeline, message: str, max_length: int):
+    async def prompt(ctx: interactions.CommandContext, message: str, max_length: int):
         await ctx.defer(ephemeral=False)
-        resp = getResponse(generator, message, max_length)
+        resp = getResponse(message, max_length)
         await ctx.send(resp)
 
     print('starting bot...')
